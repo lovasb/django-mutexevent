@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from .debug import CollisionException
@@ -34,11 +35,14 @@ class MutexManager(models.Manager):
     #    return self.get_query_set().update(**kwargs, obj)
 
     def overlapping_events(self, start, end, obj=None):
-        filters = (
-            Q(start_time__range = [start, end]) | 
-            Q(end_time__range = [start, end]) | 
-            Q(start_time__lte = start, end_time__gte = end),
-        )
+        if getattr(settings, 'MUTEX_INTERVALL_TYPE', 'close') == 'open':
+            filters = (
+                Q(start_time__lt=end), Q(end_time__gt=start)
+            )
+        else:
+            filters = (
+                Q(start_time__lte=end), Q(end_time__gte=start) 
+            )
         filters2 = {}
         exclude = getattr(self.model._mutex_meta, 'exclude', Q())
         if obj:
