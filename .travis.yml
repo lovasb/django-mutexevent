@@ -6,6 +6,5 @@ env:
   - DJANGO=django==1.5
   - DJANGO=django==1.6
 install:
-  - pip install -q $DJANGO && pip install python-dateutil
-  - python setup.py -q install
+  - pip install -q $DJANGO && pip install python-dateutil --use-mirrors
 script: python runtests.py
