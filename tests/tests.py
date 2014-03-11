@@ -1,5 +1,5 @@
 from .tests_base import BaseEventTest
-
+from .tests_meta import MetaClassOptions
 """
 TODO:
     * test exception queryset

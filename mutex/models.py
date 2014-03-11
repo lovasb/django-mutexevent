@@ -31,9 +31,6 @@ class MutexManager(models.Manager):
     def bulk_create(self, objs, batch_size=None):
         raise NotImplementedError("Mutex event can't be bulk created!")
 
-    #def update(self, **kwargs):
-    #    return self.get_query_set().update(**kwargs, obj)
-
     def overlapping_events(self, start, end, obj=None):
         if getattr(settings, 'MUTEX_INTERVALL_TYPE', 'close') == 'open':
             filters = (

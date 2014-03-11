@@ -98,7 +98,7 @@ def find_package_data(
 
 
 setup(
-    name = 'mutex',
+    name = 'django-mutex-event',
     version = version,
     description = "Mutual excluded events.",
     long_description = open('README.md').read(),
@@ -110,7 +110,7 @@ setup(
         "Operating System :: OS Independent",
         "Natural Language :: English",
     ],
-    keywords = ['django', 'mutex'],
+    keywords = ['django', 'mutex-event'],
     author = 'Lovas Bence',
     author_email = 'me@lovasb.com',
     url = 'http://lovasb.com',
