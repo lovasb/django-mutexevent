@@ -2,7 +2,7 @@ import datetime
 from copy import deepcopy
 from dateutil.relativedelta import relativedelta
 from .models import Booking, Room, RequestedBooking
-from mutex.debug import CollisionException
+from dmutex.debug import CollisionException
 from django.test import TestCase
 
 

@@ -2,8 +2,8 @@ import datetime
 from .models import Event
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
-from mutex.models import MutexEvent, MutexQuerySet
-from mutex.debug import CollisionException
+from dmutex.models import MutexEvent, MutexQuerySet
+from dmutex.debug import CollisionException
 from django.core.exceptions import ValidationError
 
 
