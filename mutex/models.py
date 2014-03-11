@@ -42,8 +42,9 @@ class MutexManager(models.Manager):
             )
         filters2 = {}
         exclude = getattr(self.model._mutex_meta, 'exclude', Q())
+        collision_fields = getattr(self.model._mutex_meta, 'collision_fields', [])
         if obj:
-            for field in getattr(self.model._mutex_meta, 'collision_fields', []):
+            for field in collision_fields:
                 if getattr(obj, field, None) is not None:
                     filters2[field] = getattr(obj, field)
             ## when we modify the event, then exclude that from the queryset
@@ -52,6 +53,9 @@ class MutexManager(models.Manager):
                     exclude = Q(pk=obj.pk) | exclude
                 else:
                     exclude = Q(pk=obj.pk)
+        ## If the collision fields are blank
+        if len(collision_fields) and not len(filters2.keys()):
+            return self.model._default_manager.none()
         return super(MutexManager, self).get_query_set()\
                                         .filter(*filters, **filters2)\
                                         .exclude(*(exclude, ))\
