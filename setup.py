@@ -97,17 +97,11 @@ def find_package_data(
 
 
 
-LONG_DESCRIPTION = """
-===========
-===========
-
-"""
-
 setup(
     name = 'mutex',
     version = version,
     description = "Mutual excluded events.",
-    long_description = LONG_DESCRIPTION,
+    long_description = open('README.md').read(),
     classifiers = [
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
@@ -118,9 +112,9 @@ setup(
     ],
     keywords = ['django', 'mutex'],
     author = 'Lovas Bence',
-    author_email = 'lovas.bence@codehouse.hu',
+    author_email = 'me@lovasb.com',
     url = 'http://lovasb.com',
-    license = 'gplv2',
+    license = 'MIT',
     packages = find_packages(),
     package_data = find_package_data("mutex", only_in_packages = False),
     include_package_data = True,
