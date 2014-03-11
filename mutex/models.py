@@ -39,6 +39,9 @@ class MutexManager(models.Manager):
             Q(end_time__range = [start, end]) | 
             Q(start_time__lte = start, end_time__gte = end),
         )
+        #filters = (
+        #    Q(start_time__lte = end) & Q(end_time__gte=start)
+        #)
         filters2 = {}
         exclude = getattr(self.model._mutex_meta, 'exclude', Q())
         if obj:
