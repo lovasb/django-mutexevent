@@ -31,6 +31,26 @@ class MutexManager(models.Manager):
     def bulk_create(self, objs, batch_size=None):
         raise NotImplementedError("Mutex event can't be bulk created!")
 
+    def overlapping_objects(self, start, end):
+        if getattr(settings, 'MUTEX_INTERVALL_TYPE', 'close') == 'open':
+            filters = (
+                Q(start_time__lt=end), Q(end_time__gt=start)
+            )
+        else:
+            filters = (
+                Q(start_time__lte=end), Q(end_time__gte=start) 
+            )
+        return super(MutexManager, self).get_query_set().filter(*filters)
+
+    def busy_fields(self, start, end):
+        collision_fields = getattr(self.model._mutex_meta, 'collision_fields', [])
+        filters = {}
+        for field in collision_fields:
+            filters['%s__isnull' % field] = False
+        return self.overlapping_objects(start, end)\
+                   .filter(**filters)\
+                   .values_list(*collision_fields, flat=len(collision_fields) == 1)
+
     def overlapping_events(self, start, end, obj=None):
         if getattr(settings, 'MUTEX_INTERVALL_TYPE', 'close') == 'open':
             filters = (
